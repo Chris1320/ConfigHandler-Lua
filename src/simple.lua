@@ -31,7 +31,28 @@ local function Simple(filepath)
     return {
         filepath = filepath,
         separator = '=',
+        comment_char = '#',
+        forbidden_key_chars = {'\n'},
         __data = {},  -- This will contain the key/value pairs in the configuration file.
+
+        _parseKey = function (self, key)
+            --- Check if <key> is valid.
+            -- @return bool true if the key is valid. Otherwise, false.
+            if key:match(self.separator) ~= nil then
+                return false
+
+            elseif key[1] == self.comment_char then
+                return false
+            end
+
+            for char in pairs(self.forbidden_key_chars) do
+                if key:match(char) ~= nil then
+                    return false
+                end
+            end
+
+            return true  -- The key is valid.
+        end,
 
         load = function (self)
             --- Load the contents of the configuration file to memory.
@@ -51,6 +72,10 @@ local function Simple(filepath)
         end,
 
         set = function (self, key, value)
+            if not self:_parseKey(key) then
+                error("Key contains invalid characters.")
+            end
+
             self.__data[key] = value
         end,
 
@@ -60,8 +85,8 @@ local function Simple(filepath)
                 error("Cannot write to file.")
             end
 
-            for k, v in pairs(self.__data) do
-                file_data:write(k .. self.separator .. v .. '\n')
+            for key, value in pairs(self.__data) do
+                file_data:write(key .. self.separator .. value .. '\n')
             end
         end
     }
