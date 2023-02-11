@@ -28,40 +28,43 @@ local misc = require("misc")
 -- @param filepath str The filepath of the configuration file.
 -- @return table
 local function Simple(filepath)
-    local simple = {
+    return {
         filepath = filepath,
         separator = '=',
         __data = {},  -- This will contain the key/value pairs in the configuration file.
 
         load = function (self)
             --- Load the contents of the configuration file to memory.
-            local file_data = io.open(self.filepath, "r")
+            local file_data = io.open(self.filepath, 'r')
             if file_data == nil then
                 error("Cannot read file.")
             end
 
-            for line in io.lines(self.filepath) do
+            for line in file_data:lines() do
                 local line_content = misc.splitStr(line, self.separator)
                 self.__data[line_content[1]] = line_content[2]
             end
         end,
 
         get = function (self, key)
-            -- TODO: Get key from self.__data
             return self.__data[key]
         end,
 
         set = function (self, key, value)
-            -- TODO: Set key to value in self.__data
             self.__data[key] = value
         end,
 
         save = function (self)
-            -- TODO: Save configuration file to self.filepath
-            print("Save " .. self.filepath)
+            local file_data = io.open(self.filepath, 'w')
+            if file_data == nil then
+                error("Cannot write to file.")
+            end
+
+            for k, v in pairs(self.__data) do
+                file_data:write(k .. self.separator .. v .. '\n')
+            end
         end
     }
-    return simple
 end
 
 return Simple
