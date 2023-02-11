@@ -26,8 +26,16 @@ local NAME = "ConfigHandler-Lua"
 local VERSION = {0, 0, 1}
 local TITLE = NAME .. " v" .. table.concat(VERSION, '.')
 
+local INTERACTIVE_HELP = [[
+open <type> <filepath>        Open <filepath> using <type> configuration handler.
+
+help                          Show this help menu.
+exit                          Exit interactive console.
+]]
+
 return {
     NAME = NAME,
     VERSION = VERSION,
-    TITLE = TITLE
+    TITLE = TITLE,
+    INTERACTIVE_HELP = INTERACTIVE_HELP
 }

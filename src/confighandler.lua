@@ -27,13 +27,28 @@ SOFTWARE.
 -- TODO: Interactive mode
 
 local info = require("info")
+local misc = require("misc")
 local simple = require("simple")
 
-print(info.TITLE)
--- assumes that test.conf exists
-local t = simple("test.conf")
-t:load()
-print("foo = " .. t:get("foo"))
-t:set("bar", "foo")
-print("bar = " .. t:get("bar"))
-t:save()
+local function main()
+    local prompt = " >>> "
+
+    io.write(info.TITLE .. "\nEnter `exit` to exit interactive mode.\n\n")
+    while true do
+        io.write(prompt)
+        local user_input = misc.splitStr(io.read("*l"))
+
+        if user_input[1] == "exit" then
+            return 0
+
+        elseif user_input[1] == "help" then
+            io.write(info.INTERACTIVE_HELP)
+
+        elseif user_input[1] == "open" then
+            print("Opening " .. user_input[2])
+
+        end
+    end
+end
+
+os.exit(main())
