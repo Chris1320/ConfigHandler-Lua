@@ -25,7 +25,7 @@ SOFTWARE.
 local misc = require("misc")
 
 --- Open a configuration file in simple mode.
--- @param filepath str The filepath of the configuration file.
+-- @param filepath string The filepath of the configuration file.
 -- @return table
 local function Simple(filepath)
     return {
@@ -35,9 +35,9 @@ local function Simple(filepath)
         forbidden_key_chars = {'\n'},
         __data = {},  -- This will contain the key/value pairs in the configuration file.
 
+        --- Check if <key> is valid.
+        -- @return bool true if the key is valid. Otherwise, false.
         _parseKey = function (self, key)
-            --- Check if <key> is valid.
-            -- @return bool true if the key is valid. Otherwise, false.
             if key:match(self.separator) ~= nil then
                 return false
 
@@ -54,8 +54,8 @@ local function Simple(filepath)
             return true  -- The key is valid.
         end,
 
+        --- Load the contents of the configuration file to memory.
         load = function (self)
-            --- Load the contents of the configuration file to memory.
             local file_data = io.open(self.filepath, 'r')
             if file_data == nil then
                 error("Cannot read file.")
@@ -67,10 +67,15 @@ local function Simple(filepath)
             end
         end,
 
+        --- Get the value of <key>.
+        -- @param key string The key to get the value of.
         get = function (self, key)
             return self.__data[key]
         end,
 
+        --- Set the value of <key> to <value>.
+        -- @oaram key string The key to set the value of.
+        -- @param value any The value of the key.
         set = function (self, key, value)
             if not self:_parseKey(key) then
                 error("Key contains invalid characters.")

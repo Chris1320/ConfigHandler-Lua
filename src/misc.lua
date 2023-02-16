@@ -23,10 +23,10 @@ SOFTWARE.
 ]]--
 
 --- Split a string <input_str> into a table of strings, separated by <separator>.
--- This function is based on `https://stackoverflow.com/a/7615129/15376542`.
----@param input_str string: The string to split.
----@param separator string: The separator to use.
----@return table
+--- This function is based on `https://stackoverflow.com/a/7615129/15376542`.
+-- @param input_str string The string to split.
+-- @param separator string The separator to use.
+-- @return table
 local function splitStr(input_str, separator)
     local result = {}
     local sep = separator or "%s"  -- Use default (any whitespaces) when separator is not supplied.

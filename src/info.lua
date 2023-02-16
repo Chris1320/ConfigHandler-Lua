@@ -23,7 +23,7 @@ SOFTWARE.
 ]]--
 
 local NAME = "ConfigHandler-Lua"
-local VERSION = {0, 0, 1}
+local VERSION = {0, 0, 2}
 local TITLE = NAME .. " v" .. table.concat(VERSION, '.')
 
 local INTERACTIVE_HELP = [[
@@ -33,9 +33,27 @@ help                          Show this help menu.
 exit                          Exit interactive console.
 ]]
 
+local SIMPLE_INTERACTIVE_HELP = [[
+load                     Load the configuration file.
+save [as]                Save the configuration file. If `as` is added as an argument, ask for a new filepath.
+info                     Show information about the configuration file.
+readonly                 Toggle read-only mode of the configuration file.
+
+get <key>                Get the value of a key.
+set <key> <value>        Set the value of a key.
+del <key>                Remove an existing key/value pair from the configuration file.
+list                     List all existing key/value pairs in the configuration file.
+
+base64                   Toggle base64 encoding of the configuration file.
+
+help                     Show this help menu.
+exit                     Close the configuration file.
+]]
+
 return {
     NAME = NAME,
     VERSION = VERSION,
     TITLE = TITLE,
-    INTERACTIVE_HELP = INTERACTIVE_HELP
+    INTERACTIVE_HELP = INTERACTIVE_HELP,
+    SIMPLE_INTERACTIVE_HELP = SIMPLE_INTERACTIVE_HELP
 }
